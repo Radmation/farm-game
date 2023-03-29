@@ -1,0 +1,33 @@
+$bronze: rgba(205, 127, 50, 1);
+$apricot: rgba(251, 206, 177, 1);
+$amber: rgba(255, 191, 0, 1);
+
+.Hotbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-left: 0;
+  list-style-type: none;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  margin: 0 0 20px 0;
+
+  button {
+    width: 100px;
+    padding: 35px 0;
+    text-align: center;
+    border: 3px solid $bronze;
+    background-color: $apricot;
+    margin-right: 3px;
+
+    &.isActive {
+      background-color: $amber;
+    }
+
+    span {
+      display: block;
+    }
+  }
+}
