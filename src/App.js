@@ -43,21 +43,21 @@ function App() {
       isWatered: false,
       isPlanted: false,
       isHarvestable: false,
-      growingAt: null
+      growingAt: null,
     },
     {
       id: uuidv4(),
       isWatered: false,
       isPlanted: false,
       isHarvestable: false,
-      growingAt: null
+      growingAt: null,
     },
     {
       id: uuidv4(),
       isWatered: false,
       isPlanted: false,
       isHarvestable: false,
-      growingAt: null
+      growingAt: null,
     }
   ]);
 
@@ -81,34 +81,29 @@ function App() {
 
   function handleShowingErrorMessage(activeItem, farmCell) {
     const requirements = activeItem.requirements;
-    let hasError = false;
-    let localErrorMessage = '';
+    let errorMessage = '';
 
     if (!requirements.length) {
-      localErrorMessage = '';
+      return errorMessage;
     }
 
     if (requirements.length) {
       requirements.forEach(requirement => {
         if (requirement === 'Seeds') {
           if (!farmCell.isPlanted) {
-            localErrorMessage = 'Farm plot is not seeded. Plant seeds first.';
-            hasError = true;
+            errorMessage = 'Farm plot is not seeded. Plant seeds first.';
           }
         }
 
         if (requirement === 'Water') {
           if (!farmCell.isWatered) {
-            localErrorMessage = 'Farm plot is not watered. Water plot first.';
-            hasError = true;
+            errorMessage = 'Farm plot is not watered. Water plot first.';
           }
         }
       });
     }
 
-    if (hasError) {
-      setErrorMessage(localErrorMessage);
-    }
+    return errorMessage;
   }
 
   function setFarmPlot(id) {
@@ -120,9 +115,12 @@ function App() {
     const farmCellToUpdate = newFarmCells.find(farmCell => id === farmCell.id);
 
     // Show error message if any.
-    handleShowingErrorMessage(activeItem, farmCellToUpdate);
+    const localErrorMessage = handleShowingErrorMessage(activeItem, farmCellToUpdate);
 
-    // TODO: if there is an error message, we want to return.
+    if (localErrorMessage) {
+      setErrorMessage(localErrorMessage);
+      return;
+    }
 
     // Set the cells property based on if the active.
     switch (activeItem.name) {
@@ -136,6 +134,28 @@ function App() {
 
     setFarmCells(newFarmCells);
   }
+
+  function updateGameState() {
+    // Determine if a crop plot is harvestable.
+    const newFarmCells = [...farmCells];
+
+    newFarmCells.forEach(farmCell => {
+      if (farmCell.isPlanted === true && farmCell.isWatered === true && farmCell.growingAt === null) {
+        farmCell.growingAt = Date.now();
+      }
+
+      if (farmCell.growingAt !== null && (Date.now() >= farmCell.growingAt + (1000 * 10))) {
+        farmCell.isHarvestable = true;
+      }
+    });
+
+    setFarmCells(newFarmCells);
+  }
+
+  useEffect(() => {
+    // Start time loop.
+    setInterval(updateGameState, 1000);
+  }, [])
 
   return (
     <>
