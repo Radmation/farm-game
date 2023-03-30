@@ -80,10 +80,35 @@ function App() {
   }
 
   function handleShowingErrorMessage(activeItem, farmCell) {
-    // Get our requirements from our active item.
     const requirements = activeItem.requirements;
+    let hasError = false;
+    let localErrorMessage = '';
 
-    //
+    if (!requirements.length) {
+      localErrorMessage = '';
+    }
+
+    if (requirements.length) {
+      requirements.forEach(requirement => {
+        if (requirement === 'Seeds') {
+          if (!farmCell.isPlanted) {
+            localErrorMessage = 'Farm plot is not seeded. Plant seeds first.';
+            hasError = true;
+          }
+        }
+
+        if (requirement === 'Water') {
+          if (!farmCell.isWatered) {
+            localErrorMessage = 'Farm plot is not watered. Water plot first.';
+            hasError = true;
+          }
+        }
+      });
+    }
+
+    if (hasError) {
+      setErrorMessage(localErrorMessage);
+    }
   }
 
   function setFarmPlot(id) {
@@ -94,18 +119,17 @@ function App() {
     const newFarmCells = [...farmCells];
     const farmCellToUpdate = newFarmCells.find(farmCell => id === farmCell.id);
 
+    // Show error message if any.
     handleShowingErrorMessage(activeItem, farmCellToUpdate);
-    // Check if error message is an empty string.
-    // If not return.
+
+    // TODO: if there is an error message, we want to return.
 
     // Set the cells property based on if the active.
     switch (activeItem.name) {
       case 'Seeds':
-        // TODO: check that it is first seeded.
         farmCellToUpdate.isPlanted = true;
         break;
       case 'Water':
-        // TODO: check that it is first seeded.
         farmCellToUpdate.isWatered = true;
         break;
     }
@@ -116,7 +140,7 @@ function App() {
   return (
     <>
       <h1>Farm Game</h1>
-      <Farm farmCells={farmCells} setFarmPlot={setFarmPlot} />
+      <Farm farmCells={farmCells} setFarmPlot={setFarmPlot}/>
       <Hotbar setActiveItem={setActiveItem} items={hotbarItems}/>
       {errorMessage}
     </>
