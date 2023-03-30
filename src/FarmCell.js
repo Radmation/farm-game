@@ -5,9 +5,9 @@ export default function FarmCell({ farmCell }) {
 
   return (
     <div className="FarmCell">
-      { farmCell.id }
-      <span> is watered: </span>{ farmCell.isWatered.toString() }
-      <span> is planted: </span>{ farmCell.isPlanted.toString() }
+      {/*{ farmCell.id }*/}
+      <span> is watered: </span>{ farmCell.isWatered.toString() } <br />
+      <span> is planted: </span>{ farmCell.isPlanted.toString() } <br />
       <span> is harvestable: </span>{ farmCell.isHarvestable.toString() }
     </div>
   )

@@ -1,0 +1,17 @@
+$brown: rgba(110, 38, 14, 1);
+
+.Farm {
+  display: flex;
+  flex-flow: row wrap;
+  background-color: pink;
+  max-width: 1400px;
+  margin: auto;
+  justify-content: center;
+
+  .FarmCell {
+    width: 24%;
+    background-color: $brown;
+    color: #fff;
+    margin: 1px;
+  }
+}

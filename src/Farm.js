@@ -1,4 +1,5 @@
 import FarmCell from './FarmCell';
+import './Farm.scss';
 
 export default function Farm({ farmCells }) {
   return (

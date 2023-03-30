@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Hotbar from './Hotbar';
 import Farm from './Farm';
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
+  const [playing, setPlaying] = useState(true);
+
   const [hotbarItems, setHotbarItems] = useState([
     {
       id: uuidv4(),
@@ -31,33 +33,42 @@ function App() {
       isWatered: false,
       isPlanted: false,
       isHarvestable: false,
-      plantedAt: Date.now()
+      growingAt: null,
     },
     {
       id: uuidv4(),
       isWatered: false,
       isPlanted: false,
       isHarvestable: false,
-      plantedAt: Date.now()
+      growingAt: null
     },
     {
       id: uuidv4(),
       isWatered: false,
       isPlanted: false,
       isHarvestable: false,
-      plantedAt: Date.now()
+      growingAt: null
     },
     {
       id: uuidv4(),
       isWatered: false,
       isPlanted: false,
       isHarvestable: false,
-      wateredAt: Date.now()
+      growingAt: null
     }
   ]);
 
-  // TODO: create a way to keep track of time, and if a crop isWatered and x amount of seconds has passed make it harvestable.
+  // Have
+  function gameTick() {
+    console.log('Ticking...');
+  }
 
+  // TODO: Set up game loop.
+  useEffect(() => {
+
+  }, [])
+
+  // TODO: Create a way to keep track of time, and if a crop isWatered and x amount of seconds has passed make it harvestable.
   // TODO: Handle way to plant crops.
 
   function setActiveItem(id) {
